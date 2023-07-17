@@ -1,0 +1,11 @@
+<!-- ng-container is a nice way to have if/else displays,
+     without having the "container" being rendered to the dom -->
+<!-- if we have a contact -->
+<ng-container>
+  <h1>{{ contact.firstName }} {{ contact.lastName }}</h1>
+  <p>{{ contact.street }}, {{ contact.city }}</p>
+</ng-container>
+<!-- if we don't have a contact -->
+<ng-container>
+  <h1>Contact not found</h1>
+</ng-container>
