@@ -6,7 +6,7 @@
 
 - Use Angular modules to compartmentalise our code
 - Use routing to seperate our components into different pages
-- Use template driven forms to valid user input
+- Use Reactive Forms to validate user input
 
 ## Setup
 
