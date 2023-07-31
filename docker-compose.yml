@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+    frontend:
+        container_name: address-book-fe
+        build:
+            context: frontend
+            dockerfile: Dockerfile
+        ports:
+            - "4200:4200"
+        depends_on:
+            - backend
+    backend:
+        container_name: address-book-be
+        build:
+            context: backend
+            dockerfile: Dockerfile
+        ports:
+            - "3000:3000"
+        depends_on:
+            - mongodb
+    mongodb:
+        image: mongo:alpine
+        ports:
+            - "27017:27017"
