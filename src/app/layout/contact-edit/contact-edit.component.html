@@ -1,0 +1,19 @@
+<form (ngSubmit)="submit($event)" *ngIf="contact$ | async as contact" [formGroup]="contactForm">
+  <label>
+    First name:
+    <input formControlName="firstName" placeholder="{{ contact.firstName }}" type="text">
+  </label>
+  <label>
+    Last name:
+    <input formControlName="lastName" placeholder="{{ contact.lastName }}" type="text">
+  </label>
+  <label>
+    Street name:
+    <input formControlName="street" placeholder="{{ contact.street }}" type="text">
+  </label>
+  <label>
+    City name:
+    <input formControlName="city" placeholder="{{ contact.city }}" type="text">
+  </label>
+  <button type="submit">Update contact</button>
+</form>

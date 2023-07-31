@@ -24,8 +24,21 @@ export class ContactService {
   }
 
   public getContactById(id: number): Observable<Contact | undefined> {
-    console.log(`Searching for contact ${id}`)
     return this.contacts$.pipe(
       map((contacts: Contact[]) => contacts.find(contact => contact.id === id)))
+  }
+
+  // TODO fix bug which overrides non-supplied values with empty fields
+  public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
+    console.log(updatedData);
+    return this.contacts$.pipe(
+      map((contacts: Contact[]) => {
+        const idx = contacts.findIndex(c => c.id === id);
+        if (idx !== -1) {
+          const contact = contacts[idx];
+          contacts[idx] = {...contact, ...updatedData};
+        }
+      })
+    )
   }
 }
