@@ -1,5 +1,5 @@
-import {Injectable} from '@angular/core';
-import {map, Observable, of} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { map, Observable, of, switchMap } from 'rxjs';
 
 let idCounter = 1
 
@@ -13,7 +13,7 @@ export interface Contact {
 
 export const createContact = (firstName: string, lastName: string, street: string, city: string): Contact => {
   const id = idCounter++;
-  return {id, firstName, lastName, street, city};
+  return { id, firstName, lastName, street, city };
 }
 
 const CONTACTS: Contact[] = [
@@ -42,6 +42,16 @@ export class ContactService {
 
   public addContact(contact: Contact) {
     console.log(`contact: ${contact.firstName} added.`)
+    this.contacts$
+      .pipe(
+        switchMap((contacts) => {
+          const updatedContacts = [...contacts, contact];
+          return of(updatedContacts);
+        })
+      )
+      .subscribe((updatedContacts) => {
+        this.contacts$ = of(updatedContacts);
+      });
   }
 
   public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
@@ -51,7 +61,7 @@ export class ContactService {
         const idx = contacts.findIndex(c => c.id === id);
         if (idx !== -1) {
           const contact = contacts[idx];
-          contacts[idx] = {...contact, ...updatedData};
+          contacts[idx] = { ...contact, ...updatedData };
         }
       })
     )
