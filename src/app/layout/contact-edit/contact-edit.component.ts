@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Contact, ContactService} from "../../contacts/contact.service";
-import {Subscription} from "rxjs";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'app-contact-edit',
@@ -10,7 +10,7 @@ import {Subscription} from "rxjs";
 })
 export class ContactEditComponent implements OnInit, OnDestroy {
   sub?: Subscription;
-  contact$?: Contact;
+  contact$?: Observable<Contact | undefined>;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,9 +21,11 @@ export class ContactEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.sub = this.route.params.subscribe((params) => {
       const id = +params['contactId']
+      this.contact$ = this.contactService.getContactById(id)
     })
   }
 
   ngOnDestroy(): void {
+    this.sub?.unsubscribe()
   }
 }
