@@ -22,10 +22,6 @@ export class ContactViewComponent implements OnInit, OnDestroy {
     this.sub = this.route.params.subscribe((params) => {
       const id = +params['contactId'];
       this.contact$ = this.contactService.getContactById(id)
-
-      this.contact$.subscribe(c => {
-        console.log(c)
-      })
     })
   }
 
