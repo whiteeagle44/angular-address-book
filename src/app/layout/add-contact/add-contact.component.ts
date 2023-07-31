@@ -1,6 +1,7 @@
-import {Component} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {Contact, ContactService, createContact} from 'src/app/contacts/contact.service';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Contact, ContactService, createContact } from 'src/app/contacts/contact.service';
+import { contactEmailValidator, contactNoSpacesValidator } from '../contact-validator';
 
 @Component({
   selector: 'app-add-contact',
@@ -8,20 +9,21 @@ import {Contact, ContactService, createContact} from 'src/app/contacts/contact.s
   styleUrls: ['./add-contact.component.css']
 })
 export class AddContactComponent {
-  addContactForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    street: new FormControl(''),
-    city: new FormControl(''),
+  contactForm = this.formBuilder.group({
+    email: ['', [Validators.required, contactEmailValidator]],
+    firstName: ['', [Validators.required, Validators.minLength(3), contactNoSpacesValidator]],
+    lastName: ['', [Validators.required, Validators.minLength(3), contactNoSpacesValidator]],
+    street: ['', Validators.required],
+    city: ['', Validators.required]
   });
 
-  constructor(private contactService: ContactService) {
+  constructor(private contactService: ContactService, private formBuilder: FormBuilder) {
   }
 
   onSubmit() {
-    const formValue = this.addContactForm.value
-    if (formValue.firstName && formValue.lastName && formValue.street && formValue.city) {
-      let contact: Contact = createContact(formValue.firstName, formValue.lastName, formValue.street, formValue.city)
+    const formValue = this.contactForm.value
+    if (formValue.email && formValue.firstName && formValue.lastName && formValue.street && formValue.city) {
+      let contact: Contact = createContact(formValue.email, formValue.firstName, formValue.lastName, formValue.street, formValue.city)
       this.contactService.addContact(contact)
     } else {
       console.error("Contact was not added because of missing field values")

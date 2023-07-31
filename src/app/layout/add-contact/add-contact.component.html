@@ -1,15 +1,74 @@
-<form class="addContactForm" [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
+<form class="contactForm" [formGroup]="contactForm" (ngSubmit)="onSubmit()" required>
+    <label for="email">Email: </label>
+    <input type="text" formControlName="email">
+
+    <div
+        *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.dirty || contactForm.get('email')?.touched)">
+
+        <div *ngIf="contactForm.get('email')?.errors?.['required']">
+            Email is required.
+        </div>
+
+        <div *ngIf="contactForm.get('email')?.errors?.['contactEmailValidator']">
+            Email must end in '@boolean.co.uk'
+        </div>
+    </div>
+
     <label for="firstName">First name: </label>
     <input type="text" formControlName="firstName">
+
+    <div
+        *ngIf="contactForm.get('firstName')?.invalid && (contactForm.get('firstName')?.dirty || contactForm.get('firstName')?.touched)">
+
+        <div *ngIf="contactForm.get('firstName')?.errors?.['required']">
+            First name is required.
+        </div>
+        <div *ngIf="contactForm.get('firstName')?.errors?.['minlength']">
+            First name must be at least 3 characters long.
+        </div>
+        <div *ngIf="contactForm.get('firstName')?.errors?.['contactNoSpacesValidator']">
+            First name must not contain spaces
+        </div>
+    </div>
 
     <label for="lastName">Last name: </label>
     <input type="text" formControlName="lastName">
 
+    <div
+        *ngIf="contactForm.get('lastName')?.invalid && (contactForm.get('lastName')?.dirty || contactForm.get('lastName')?.touched)">
+
+        <div *ngIf="contactForm.get('lastName')?.errors?.['required']">
+            Last name is required.
+        </div>
+        <div *ngIf="contactForm.get('lastName')?.errors?.['minlength']">
+            Last name must be at least 3 characters long.
+        </div>
+        <div *ngIf="contactForm.get('lastName')?.errors?.['contactNoSpacesValidator']">
+            Last name must not contain spaces
+        </div>
+    </div>
+
     <label for="street">Street</label>
     <input type="text" formControlName="street">
+
+    <div
+        *ngIf="contactForm.get('street')?.invalid && (contactForm.get('street')?.dirty || contactForm.get('street')?.touched)">
+
+        <div *ngIf="contactForm.get('street')?.errors?.['required']">
+            Street is required.
+        </div>
+    </div>
 
     <label for="city">City</label>
     <input type="text" formControlName="city">
 
-    <button type="submit" [disabled]="!addContactForm.valid">Submit</button>
+    <div
+        *ngIf="contactForm.get('city')?.invalid && (contactForm.get('city')?.dirty || contactForm.get('city')?.touched)">
+
+        <div *ngIf="contactForm.get('city')?.errors?.['required']">
+            City is required.
+        </div>
+    </div>
+
+    <button type="submit" [disabled]="!contactForm.valid">Submit</button>
 </form>

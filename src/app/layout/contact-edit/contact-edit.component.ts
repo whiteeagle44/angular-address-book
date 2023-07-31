@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from "@angular/router";
-import {Contact, ContactService} from "../../contacts/contact.service";
-import {Observable, Subscription} from "rxjs";
-import {FormBuilder, Validators} from "@angular/forms";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from "@angular/router";
+import { Contact, ContactService } from "../../contacts/contact.service";
+import { Observable, Subscription } from "rxjs";
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: 'app-contact-edit',
@@ -14,6 +14,7 @@ export class ContactEditComponent implements OnInit, OnDestroy {
   id$?: number;
   contact$?: Observable<Contact | undefined>;
   contactForm = this.formBuilder.group({
+    email: [undefined, Validators.required],
     firstName: [undefined, Validators.required],
     lastName: [undefined, Validators.required],
     street: [undefined, Validators.required],

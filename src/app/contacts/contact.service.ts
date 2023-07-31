@@ -5,21 +5,22 @@ let idCounter = 1
 
 export interface Contact {
   id: number,
+  email: string,
   firstName: string,
   lastName: string,
   street: string,
   city: string
 }
 
-export const createContact = (firstName: string, lastName: string, street: string, city: string): Contact => {
+export const createContact = (email: string, firstName: string, lastName: string, street: string, city: string): Contact => {
   const id = idCounter++;
-  return { id, firstName, lastName, street, city };
+  return { id, email, firstName, lastName, street, city };
 }
 
 const CONTACTS: Contact[] = [
-  createContact("John", "Doe", "Marszałkowska 128/133", "01-234 Warszawa"),
-  createContact("Mariusz", "Paździoch", "Długa 24", "01-234 Miasteczkowo"),
-  createContact("Robocop", "XYZ", "0x1234", "Computer Memory"),
+  createContact("john@boolean.co.uk", "John", "Doe", "Marszałkowska 128/133", "01-234 Warszawa"),
+  createContact("mariusz@boolean.co.uk", "Mariusz", "Paździoch", "Długa 24", "01-234 Miasteczkowo"),
+  createContact("robocop@boolean.co.uk", "Robocop", "XYZ", "0x1234", "Computer Memory"),
 ];
 
 @Injectable({
@@ -41,7 +42,6 @@ export class ContactService {
   }
 
   public addContact(contact: Contact) {
-    console.log(`contact: ${contact.firstName} added.`)
     this.contacts$
       .pipe(
         switchMap((contacts) => {
