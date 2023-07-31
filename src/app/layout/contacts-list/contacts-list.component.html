@@ -1,7 +1,8 @@
 <h1>Contacts </h1>
 <div *ngFor="let contact of contacts | async">
-    <div class="contact">
-        <p>{{contact.firstName}} {{contact.lastName}}</p>
-        <a routerLink="/contacts/{{contact.id}}">View</a>
-    </div>
+  <div class="contact">
+    <p>{{contact.firstName}} {{contact.lastName}}</p>
+    <a routerLink="/contacts/{{contact.id}}">View</a>
+    <a routerLink="/contacts/{{contact.id}}/edit">Edit</a>
+  </div>
 </div>
