@@ -1,0 +1,10 @@
+:host {
+    width: 60%;
+}
+
+.contact {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
