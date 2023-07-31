@@ -30,6 +30,7 @@ export class ContactService {
 
   // TODO fix bug which overrides non-supplied values with empty fields
   public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
+    console.log(updatedData);
     return this.contacts$.pipe(
       map((contacts: Contact[]) => {
         const idx = contacts.findIndex(c => c.id === id);

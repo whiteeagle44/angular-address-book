@@ -14,10 +14,10 @@ export class ContactEditComponent implements OnInit, OnDestroy {
   id$?: number;
   contact$?: Observable<Contact | undefined>;
   contactForm = this.formBuilder.group({
-    firstName: ['', Validators.required],
-    lastName: ['', Validators.required],
-    street: ['', Validators.required],
-    city: ['', Validators.required]
+    firstName: [undefined, Validators.required],
+    lastName: [undefined, Validators.required],
+    street: [undefined, Validators.required],
+    city: [undefined, Validators.required]
   });
 
   constructor(
@@ -30,7 +30,8 @@ export class ContactEditComponent implements OnInit, OnDestroy {
   submit(e: Event) {
     e.preventDefault();
     if (!this.id$) return;
-    const sub = this.contactService.updateContactById(this.id$, this.contactForm.value as Partial<Contact>).subscribe();
+    const updatedData = this.removeBlankFields(this.contactForm.value);
+    const sub = this.contactService.updateContactById(this.id$, updatedData).subscribe();
     this.subs.push(sub);
   }
 
@@ -44,5 +45,9 @@ export class ContactEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subs.forEach(s => s.unsubscribe());
+  }
+
+  private removeBlankFields(obj: Object): Object {
+    return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v != null));
   }
 }
