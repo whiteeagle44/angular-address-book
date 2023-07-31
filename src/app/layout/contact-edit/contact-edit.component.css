@@ -1,0 +1,4 @@
+.editContactForm {
+  display: flex;
+  flex-direction: column;
+}
