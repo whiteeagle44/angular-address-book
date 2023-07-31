@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Contact, ContactService } from 'src/app/contacts/contact.service';
+import {Component} from '@angular/core';
+import {FormControl, FormGroup} from '@angular/forms';
+import {Contact, ContactService, createContact} from 'src/app/contacts/contact.service';
 
 @Component({
   selector: 'app-add-contact',
@@ -15,12 +15,13 @@ export class AddContactComponent {
     city: new FormControl(''),
   });
 
-  constructor(private contactService: ContactService) { }
+  constructor(private contactService: ContactService) {
+  }
 
   onSubmit() {
     const formValue = this.addContactForm.value
     if (formValue.firstName && formValue.lastName && formValue.street && formValue.city) {
-      let contact: Contact = new Contact(formValue.firstName, formValue.lastName, formValue.street, formValue.city)
+      let contact: Contact = createContact(formValue.firstName, formValue.lastName, formValue.street, formValue.city)
       this.contactService.addContact(contact)
     } else {
       console.error("Contact was not added because of missing field values")

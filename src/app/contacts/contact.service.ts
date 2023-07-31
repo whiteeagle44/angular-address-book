@@ -1,40 +1,25 @@
-import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {map, Observable, of} from 'rxjs';
 
-export class Contact {
-  static nextId: number = 1
-  private _id: number;
+let idCounter = 1
 
-  constructor(private _firstName: string, private _lastName: string, private _street: string, private _city: string) {
-    this._id = Contact.nextId++
-  }
+export interface Contact {
+  id: number,
+  firstName: string,
+  lastName: string,
+  street: string,
+  city: string
+}
 
-  public get id(): number {
-    return this._id;
-  }
-
-  public get firstName(): string {
-    return this._firstName;
-  }
-
-  public get lastName(): string {
-    return this._lastName;
-  }
-
-  public get street(): string {
-    return this._street;
-  }
-
-  public get city(): string {
-    return this._city;
-  }
-
+export const createContact = (firstName: string, lastName: string, street: string, city: string): Contact => {
+  const id = idCounter++;
+  return {id, firstName, lastName, street, city};
 }
 
 const CONTACTS: Contact[] = [
-  new Contact("John", "Doe", "Marszałkowska 128/133", "01-234 Warszawa"),
-  new Contact("Mariusz", "Paździoch", "Długa 24", "01-234 Miasteczkowo"),
-  new Contact("Robocop", "XYZ", "0x1234", "Computer Memory"),
+  createContact("John", "Doe", "Marszałkowska 128/133", "01-234 Warszawa"),
+  createContact("Mariusz", "Paździoch", "Długa 24", "01-234 Miasteczkowo"),
+  createContact("Robocop", "XYZ", "0x1234", "Computer Memory"),
 ];
 
 @Injectable({
@@ -58,7 +43,7 @@ export class ContactService {
   public addContact(contact: Contact) {
     console.log(`contact: ${contact.firstName} added.`)
   }
-    
+
   public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
     console.log(updatedData);
     return this.contacts$.pipe(
