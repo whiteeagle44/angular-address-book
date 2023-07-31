@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs';
-import { CONTACTS } from './mock-contacts';
+import {Injectable} from '@angular/core';
+import {map, Observable, of} from 'rxjs';
+import {CONTACTS} from './mock-contacts';
 
 export interface Contact {
   id: number,
@@ -16,13 +16,15 @@ export interface Contact {
 export class ContactService {
   private contacts$: Observable<Contact[]> = of(CONTACTS)
 
-  constructor() { }
+  constructor() {
+  }
 
   public getContacts(): Observable<Contact[]> {
     return this.contacts$
   }
 
   public getContactById(id: number): Observable<Contact | undefined> {
+    console.log(`Searching for contact ${id}`)
     return this.contacts$.pipe(
       map((contacts: Contact[]) => contacts.find(contact => contact.id === id)))
   }
