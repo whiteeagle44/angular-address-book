@@ -1,4 +1,4 @@
-<form (ngSubmit)="submit($event)" *ngIf="contact$ | async as contact" [formGroup]="contactForm">
+<form (ngSubmit)="submit($event)" *ngIf="contact$ | async as contact" [formGroup]="contactForm" class="editContactForm">
   <label>
     First name:
     <input formControlName="firstName" placeholder="{{ contact.firstName }}" type="text">

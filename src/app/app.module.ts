@@ -10,5 +10,4 @@ import {LayoutModule} from './layout/layout.module';
   imports: [BrowserModule, AppRoutingModule, LayoutModule],
   bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule { }

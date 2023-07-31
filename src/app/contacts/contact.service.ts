@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {map, Observable, of} from 'rxjs';
-import {CONTACTS} from './mock-contacts';
+import { Injectable } from '@angular/core';
+import { map, Observable, of, switchMap } from 'rxjs';
+
+let idCounter = 1
 
 export interface Contact {
   id: number,
@@ -9,6 +10,17 @@ export interface Contact {
   street: string,
   city: string
 }
+
+export const createContact = (firstName: string, lastName: string, street: string, city: string): Contact => {
+  const id = idCounter++;
+  return { id, firstName, lastName, street, city };
+}
+
+const CONTACTS: Contact[] = [
+  createContact("John", "Doe", "Marszałkowska 128/133", "01-234 Warszawa"),
+  createContact("Mariusz", "Paździoch", "Długa 24", "01-234 Miasteczkowo"),
+  createContact("Robocop", "XYZ", "0x1234", "Computer Memory"),
+];
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +40,20 @@ export class ContactService {
       map((contacts: Contact[]) => contacts.find(contact => contact.id === id)))
   }
 
-  // TODO fix bug which overrides non-supplied values with empty fields
+  public addContact(contact: Contact) {
+    console.log(`contact: ${contact.firstName} added.`)
+    this.contacts$
+      .pipe(
+        switchMap((contacts) => {
+          const updatedContacts = [...contacts, contact];
+          return of(updatedContacts);
+        })
+      )
+      .subscribe((updatedContacts) => {
+        this.contacts$ = of(updatedContacts);
+      });
+  }
+
   public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
     console.log(updatedData);
     return this.contacts$.pipe(
@@ -36,7 +61,7 @@ export class ContactService {
         const idx = contacts.findIndex(c => c.id === id);
         if (idx !== -1) {
           const contact = contacts[idx];
-          contacts[idx] = {...contact, ...updatedData};
+          contacts[idx] = { ...contact, ...updatedData };
         }
       })
     )

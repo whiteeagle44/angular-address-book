@@ -1,4 +1,15 @@
-<p>add-contact works!</p>
-<!-- <form [formGroup]="userForm" (ngSubmit)="submit($event)">
+<form class="addContactForm" [formGroup]="addContactForm" (ngSubmit)="onSubmit()">
+    <label for="firstName">First name: </label>
+    <input type="text" formControlName="firstName">
 
-</form> -->
+    <label for="lastName">Last name: </label>
+    <input type="text" formControlName="lastName">
+
+    <label for="street">Street</label>
+    <input type="text" formControlName="street">
+
+    <label for="city">City</label>
+    <input type="text" formControlName="city">
+
+    <button type="submit" [disabled]="!addContactForm.valid">Submit</button>
+</form>
