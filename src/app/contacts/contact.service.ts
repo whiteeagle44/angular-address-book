@@ -28,6 +28,7 @@ export class Contact {
   public get city(): string {
     return this._city;
   }
+
 }
 
 const CONTACTS: Contact[] = [
@@ -42,7 +43,8 @@ const CONTACTS: Contact[] = [
 export class ContactService {
   private contacts$: Observable<Contact[]> = of(CONTACTS)
 
-  constructor() { }
+  constructor() {
+  }
 
   public getContacts(): Observable<Contact[]> {
     return this.contacts$
@@ -55,5 +57,18 @@ export class ContactService {
 
   public addContact(contact: Contact) {
     console.log(`contact: ${contact.firstName} added.`)
+  }
+    
+  public updateContactById(id: number, updatedData: Partial<Contact>): Observable<void> {
+    console.log(updatedData);
+    return this.contacts$.pipe(
+      map((contacts: Contact[]) => {
+        const idx = contacts.findIndex(c => c.id === id);
+        if (idx !== -1) {
+          const contact = contacts[idx];
+          contacts[idx] = {...contact, ...updatedData};
+        }
+      })
+    )
   }
 }
