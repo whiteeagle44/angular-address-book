@@ -1,10 +1,7 @@
 FROM node:alpine as build
 WORKDIR /app
-COPY ./src .
-COPY package*.json .
-RUN npm run build
+COPY . .
+RUN npm i -g @angular/cli
+RUN npm i
+ENTRYPOINT ["ng", "serve"]
 
-FROM nginx:alpine
-COPY --from=build /app/dist/frontend /usr/share/nginx/html
-EXPOSE 4200
-ENTRYPOINT [ "nginx", "-g", "daemon off;" ]

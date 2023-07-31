@@ -1,7 +1,6 @@
 FROM node:alpine as build
 WORKDIR /app
-COPY ./src .
-COPY package*.json .
+COPY . .
 RUN npm i
 RUN npm run build
 EXPOSE 3000
